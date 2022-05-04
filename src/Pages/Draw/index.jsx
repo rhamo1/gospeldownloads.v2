@@ -71,7 +71,7 @@ export const Draw = () => {
   return (
     <Center flexDirection={"column"} justifyContent={"center"}>
       <Sketch setup={setup} draw={draw} />
-      <Button onClick={() => history.push("/")}>go home, kid</Button>
+      <Button onClick={() => history.push("/canvas2")}>go home, kid</Button>
     </Center>
   );
 };

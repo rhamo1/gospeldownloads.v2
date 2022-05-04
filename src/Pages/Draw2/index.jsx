@@ -1,18 +1,46 @@
 import { Button, Center } from "@chakra-ui/react";
 
-import React, { useState } from "react";
+import React from "react";
 import Sketch from "react-p5";
 import { useHistory } from "react-router-dom";
-import "react-p5";
-import "p5";
+
+import { useState, useEffect } from "react";
+
+const getWindowDimensions = () => {
+  const { innerWidth: width, innerHeight: height } = window;
+  console.log(height, width);
+
+  return {
+    width,
+    height,
+  };
+};
+
+export const useWindowDimensions = () => {
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowDimensions;
+};
 
 export const Draw2 = () => {
   const history = useHistory();
-  const [sizeX, setSizeX] = useState("0");
+  const { height, width } = useWindowDimensions();
+
   const setup = (p5, canvasParentRef) => {
     // use parent to render the canvas in this ref
     // (without that p5 will render the canvas outside of your component)
-    p5.createCanvas(1000, 900).parent(canvasParentRef);
+    p5.createCanvas(width - 100, height - 100).parent(canvasParentRef);
   };
 
   let colorValue = 250;
@@ -21,39 +49,34 @@ export const Draw2 = () => {
 
   let sizex = 50;
   let sizey = 50;
-  const handler = (e) => {
-    console.log("teste");
-  };
-
-  let value = 0;
-
   const draw = (p5) => {
+    sizex = p5.mouseX;
+    sizey = p5.mouseY;
     if (p5.mouseIsPressed) {
-      sizex = p5.mouseX / 2;
-      sizey = p5.mouseY / 3;
+      // color();
 
-      colorValue = p5.mouseX * 0.7;
+      colorValue = p5.mouseX * 0.5;
 
       colorValue1 = p5.mouseY * 0.02;
 
       colorValue2 = p5.mouseY * 0.09;
 
       p5.fill(colorValue, colorValue1, colorValue2);
-      p5.rect(p5.mouseX, p5.mouseY, sizex / 2, sizey / 2);
+      p5.translate(900, -200);
+      p5.rotate(p5.cos(p5.mouseY * 0.004), -10000);
+      p5.rect(p5.mouseY, p5.mouseX, sizex / 2, sizey / 2);
     } else {
+      // p5.translate(300, -200);
+      p5.rotate(p5.tan(p5.mouseX * 0.0004), -20000);
       p5.fill(colorValue, colorValue1, colorValue2);
+      p5.rect(p5.mouseX, p5.mouseY, sizex / 2, sizey / 2);
     }
   };
-
   return (
-    <Center
-      flexDirection={"column"}
-      justifyContent={"center"}
-      onKeyPress={(e) => handler()}
-    >
+    <Center flexDirection={"column"} justifyContent={"center"}>
       <Sketch setup={setup} draw={draw} />
+      {/* <Sketch setup={setup} draw={draw} /> */}
       <Button onClick={() => history.push("/")}>go home, kid</Button>
-      <p>laio vai toma no cu</p>
     </Center>
   );
 };
