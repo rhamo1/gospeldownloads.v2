@@ -59,11 +59,16 @@ export const Draw = () => {
 
       colorValue1 = p5.mouseY * 0.02;
 
-      colorValue2 = p5.mouseY * 0.09;
+      colorValue2 = p5.mouseY * 0.012;
 
       p5.fill(colorValue, colorValue1, colorValue2);
       p5.circle(p5.mouseX, p5.mouseY, sizey / 3);
     } else {
+      colorValue = p5.mouseX * 0.8;
+
+      colorValue1 = p5.mouseY * 0.6;
+
+      colorValue2 = p5.mouseY * 0.2;
       p5.fill(colorValue, colorValue1, colorValue2);
       p5.rect(p5.mouseX, p5.mouseY, sizey, sizex);
     }
