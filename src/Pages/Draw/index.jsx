@@ -40,7 +40,7 @@ export const Draw = () => {
   const setup = (p5, canvasParentRef) => {
     // use parent to render the canvas in this ref
     // (without that p5 will render the canvas outside of your component)
-    p5.createCanvas(width - 100, height - 100).parent(canvasParentRef);
+    p5.createCanvas(width - 200, height - 200).parent(canvasParentRef);
   };
 
   let colorValue = 250;
@@ -62,10 +62,10 @@ export const Draw = () => {
       colorValue2 = p5.mouseY * 0.09;
 
       p5.fill(colorValue, colorValue1, colorValue2);
-      p5.circle(p5.mouseY, p5.mouseX, sizey / 2);
+      p5.circle(p5.mouseX, p5.mouseY, sizey / 3);
     } else {
       p5.fill(colorValue, colorValue1, colorValue2);
-      p5.rect(p5.mouseY, p5.mouseX, sizex / 2, sizey / 2);
+      p5.rect(p5.mouseX, p5.mouseY, sizey, sizex);
     }
   };
   return (
